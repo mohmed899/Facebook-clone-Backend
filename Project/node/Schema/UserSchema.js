@@ -6,5 +6,8 @@ module.exports = new  Mongo.Schema(
         age:"Number",
         email:"String",
         password:"String",
+        img:"String",
+        job:"String",
+        coverImg:"String",
         firends:[String]
     })

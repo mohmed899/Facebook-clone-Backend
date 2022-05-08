@@ -1,6 +1,6 @@
 const express = require('express')
 const PostRouter = express.Router();
-const {AddPost,GetAllPosts} =require('../Controller/PostControl')
+const {AddPost,GetAllPosts,UpdatePostLikes,GetUserPosts} =require('../Controller/PostControl')
 const multer = require('multer')
 
 
@@ -24,7 +24,8 @@ const storage = multer.diskStorage({
 //ToDO mw for validation 
 PostRouter.post('/',upload,AddPost);
 PostRouter.get('/',GetAllPosts);
-
+PostRouter.get('/:id',GetUserPosts);
+PostRouter.patch('/:id',UpdatePostLikes);
 
 
 

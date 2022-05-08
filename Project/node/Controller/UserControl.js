@@ -7,16 +7,16 @@ module.exports = {
     console.log(req.body)
     let { fName, lName, age, email, password } = req.body;
     try {
-       const ExestUser = await UserModel.find({email:email}).exec();
-       if(ExestUser.length!=0){
-         next( Error(404,"invalid data","user already exist "));
+      const ExestUser = await UserModel.find({ email: email }).exec();
+      if (ExestUser.length != 0) {
+        next(Error(404, "invalid data", "user already exist "));
         return;
-       }
+      }
       const hashedPass = await HashPassword(password)
       let user = await userModel.create({ fName, lName, age, email, password: hashedPass })
       res.send(user);
     } catch (error) {
-      const err = Error(500,"server Error",error.message);
+      const err = Error(500, "server Error", error.message);
       next(err)
     }
   },
@@ -39,24 +39,13 @@ module.exports = {
         }
 
       });
-
-
     }
     else {
       let { UserId } = req.query;
+      //UserId ='62735cfb7b48781ee0d1c368'
       let userFriends = userModel.find({ _id: UserId }, 'firends', async (e, d) => {
-      //   console.log(d);
-        if (d.length === 0)
-        {
-          d.push(UserId);
-           //   console.log(d)
-        }
-        
-
-          const records = await userModel.find().where('_id').nin(d).exec();
-          res.send(records)
-        
-
+        const records = await userModel.find().where('_id').nin([...d[0].firends,UserId]).exec();
+        res.send(records)
       });
       // let userFriends = await userModel.find({ _id: UserId }, 'firends').exec();
     }
@@ -64,13 +53,17 @@ module.exports = {
 
   },
 
-  getUser: async (req, res) => {
+  getUser: async (req, res, next) => {
     const { id } = req.params;
     try {
-      let user = await userModel.findById('626aeb487f6015b670d6c168');
+      let user = await userModel.findById(id);
+
       if (user)
         res.send(user);
-
+      else {
+        next(Error(404, "user not found", "not found "));
+        return;
+      }
     } catch (error) {
       res.send(error.message)
     }
@@ -78,13 +71,13 @@ module.exports = {
   logIn: async (req, res, next) => {
     const { email, password } = req.query;
     const user = await userModel.findOne({ email }).exec();
-    if (!user){
-      next( Error(403,"invalid data","wrong mail  "));
+    if (!user) {
+      next(Error(403, "invalid data", "wrong mail  "));
       return;
     }
     isValidPass = await comparePassword(password, user.password)
-    if (!isValidPass){
-      next( Error(403,"invalid data","wrong  pass "));
+    if (!isValidPass) {
+      next(Error(403, "invalid data", "wrong  pass "));
       return;
     }
     res.send(user);
