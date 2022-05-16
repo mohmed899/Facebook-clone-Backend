@@ -95,5 +95,24 @@ module.exports = {
       res.send("no such user ");
     }
 
+  },
+
+  searchUser:async (req, res , next)=>{
+
+    let {searchText} = req.query
+    let regx;
+    if(searchText=="")
+    {
+     res.send([])
+     return
+    }
+    try {
+      regx = RegExp(`^${searchText}`,'i');
+    } catch (error) {
+      res.send([])
+      return
+    }
+      users = await UserModel.find({ "fName": { $regex:regx } }).exec()
+     res.send(users)
   }
 }

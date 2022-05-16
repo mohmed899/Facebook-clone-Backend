@@ -1,3 +1,5 @@
+
+const { createServer } = require("http");
 const express = require('express')
 const app = express()
 const port = 3001
@@ -7,6 +9,7 @@ const PostRouter = require('./Routers/PostRouter')
 const MessageRouter = require('./Routers/MessageRouter')
 const ConversationRouter = require('./Routers/ConversationRouter')
 const cros= require('cors')
+const soket = require('./Schema/soket')
 app.use(express.json()) // pares json 
 app.use(cros())   // for local host call 
 app.use(express.static('p'))
@@ -14,6 +17,22 @@ app.use('/users',userRouter);
 app.use('/posts',PostRouter);
 app.use('/messages',MessageRouter);
 app.use('/conversations',ConversationRouter);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 app.use((err, req, res, next)=> {
