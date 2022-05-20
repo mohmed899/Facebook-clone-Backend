@@ -5,7 +5,7 @@ module.exports = {
        
         try {
                const {UserId}= req.params;
-               const ConvS = await ConvModel.find({ members: { $all: [UserId] } });
+               const ConvS = await ConvModel.find({OwnerID:UserId}).exec();
                res.send(ConvS)
         } catch (error) {
             const err = Error(500, 'SERVER_ERROR', error.message, []);

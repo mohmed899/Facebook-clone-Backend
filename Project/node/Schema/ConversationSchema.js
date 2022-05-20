@@ -1,6 +1,10 @@
 const Mongo = require('mongoose')
 module.exports = new  Mongo.Schema(
     {
-        
-        members:[String]
+      
+      ConvName:"String",
+      OwnerID:"String",
+      OtherID:"String",
+      img:"string"
+
     })
