@@ -21,8 +21,10 @@ io.on("connection", (socket) => {
 
   socket.on('addUser', (userID) => {
     addOnlineUser(socket.id, userID);
+    console.clear()
     console.log("user connected");
     console.log(OnlineUsers);
+    
 
   })
 
@@ -30,6 +32,14 @@ io.on("connection", (socket) => {
 
     console.log("id", getSocketIdOfuser(postOwnerId));
     io.to(getSocketIdOfuser(postOwnerId)).emit('getNoto', "likedt post")
+
+  })
+
+  socket.on('addMsg', (resverID, msg ) => {
+  
+    console.log("idrrr", resverID);
+    console.log("idr", getSocketIdOfuser(resverID));
+    io.to(getSocketIdOfuser(resverID)).emit('NewMsg', msg)
 
   })
 });
