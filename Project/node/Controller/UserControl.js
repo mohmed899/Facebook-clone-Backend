@@ -39,12 +39,13 @@ module.exports = {
           let records = await userModel.find().where('_id').in(d[0].firends).exec();
 
          records = records.map((us)=>{
-          if(arr.find(u=>us._id==u.UserId))
-                 us.isOnline=true
-                 return us;
-         })
-         console.log("test on" ,records)
+           if(arr.find(u=>us._id==u.UserId))
+           us.isOnline=true
+           return us;
+          })
+        
           res.send(records)
+         
         }
 
       });

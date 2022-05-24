@@ -18,13 +18,15 @@ io.on("connection", (socket) => {
     RemoveOnlineUser(socket.id)
   });
 
+    
+
 
   socket.on('addUser', (userID) => {
     addOnlineUser(socket.id, userID);
-    console.clear()
-    console.log("user connected");
-    console.log(OnlineUsers);
-    
+    // console.clear()
+    // console.log("user connected");
+    // console.log(OnlineUsers);
+    io.emit("SC",userID);
 
   })
 
@@ -35,7 +37,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on('addMsg', (resverID, msg ) => {
-  
+  console.log("uId ",resverID)
     io.to(getSocketIdOfuser(resverID)).emit('NewMsg', msg)
 
   })
