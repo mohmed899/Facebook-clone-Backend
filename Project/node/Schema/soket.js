@@ -7,7 +7,7 @@ const io = new Server({
 
 
 let OnlineUsers = [];
-
+module.exports =OnlineUsers;
 
 io.on("connection", (socket) => {
   // ...
@@ -28,17 +28,14 @@ io.on("connection", (socket) => {
 
   })
 
-  socket.on('postLiked', ({ postId, postOwnerId }) => {
+  socket.on('postLiked', ({ postId, postOwnerId ,img,Name}) => {
 
-    console.log("id", getSocketIdOfuser(postOwnerId));
-    io.to(getSocketIdOfuser(postOwnerId)).emit('getNoto', "likedt post")
+    io.to(getSocketIdOfuser(postOwnerId)).emit('getNoto', img, Name )
 
   })
 
   socket.on('addMsg', (resverID, msg ) => {
   
-    console.log("idrrr", resverID);
-    console.log("idr", getSocketIdOfuser(resverID));
     io.to(getSocketIdOfuser(resverID)).emit('NewMsg', msg)
 
   })

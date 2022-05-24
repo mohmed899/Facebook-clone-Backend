@@ -9,5 +9,6 @@ module.exports = new  Mongo.Schema(
         img:"String",
         job:"String",
         coverImg:"String",
-        firends:[String]
+        firends:[String],
+        isOnline:"Boolean"
     })

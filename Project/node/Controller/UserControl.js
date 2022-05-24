@@ -2,6 +2,8 @@ const userModel = require('../Models/UserModel')
 const { HashPassword, comparePassword } = require('../helper/security');
 const UserModel = require('../Models/UserModel');
 const Error = require('../helper/ErrorHandler');
+const arr = require('../Schema/soket')
+
 module.exports = {
   addUser: async (req, res, next) => {
     console.log(req.body)
@@ -34,7 +36,14 @@ module.exports = {
           res.send([])
         else {
 
-          const records = await userModel.find().where('_id').in(d[0].firends).exec();
+          let records = await userModel.find().where('_id').in(d[0].firends).exec();
+
+         records = records.map((us)=>{
+          if(arr.find(u=>us._id==u.UserId))
+                 us.isOnline=true
+                 return us;
+         })
+         console.log("test on" ,records)
           res.send(records)
         }
 
@@ -53,13 +62,18 @@ module.exports = {
 
   },
 
+
   getUser: async (req, res, next) => {
     const { id } = req.params;
     try {
       let user = await userModel.findById(id);
+      
+      if (user){
 
-      if (user)
-        res.send(user);
+        if(arr.find(u=>user._id==u.UserId))
+            user.isOnline=true
+         res.send(user);
+      } 
       else {
         next(Error(404, "user not found", "not found "));
         return;
